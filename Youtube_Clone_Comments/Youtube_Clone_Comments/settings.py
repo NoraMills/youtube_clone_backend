@@ -116,3 +116,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from Youtube_Clone_Comments.local_settings import *
+except ImportError:
+    pass
