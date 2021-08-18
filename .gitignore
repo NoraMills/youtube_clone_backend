@@ -104,4 +104,4 @@ dist
 .tern-port
 
 #Django
-local_settings.py
+Youtube_Clone_Comments/local_settings.py
