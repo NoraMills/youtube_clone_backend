@@ -38,3 +38,25 @@ class CommentDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentLike(APIView):
+    def get_object(self, pk, video_id):
+        try:
+            return Comment.objects.get(pk=pk, video_id=video_id)
+        except Comment.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        comment = self.get_object(pk)
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    def patch(self, request, pk, video_id):
+        comment = self.get_object(pk, video_id=video_id)
+        data = {"likes": comment.likes + int(1)}
+        serializer = CommentSerializer(comment, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
