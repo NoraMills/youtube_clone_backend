@@ -7,13 +7,13 @@ from django.http import Http404
 
 
 # All comments
-class Comments(APIView):
-    def get(self, request, video_id):
-        comments = Comment.objects.filter(video_id=video_id)
-        serializer = CommentSerializer(comments, many=True)
+class CommentList(APIView):
+    def get(self, request):
+        comment = Comment.objects.all()
+        serializer = CommentSerializer(comment, many=True)
         return Response(serializer.data)
 
-    def post(self, request, video_id):
+    def post(self, request):
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
